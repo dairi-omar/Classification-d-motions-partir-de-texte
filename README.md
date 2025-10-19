@@ -2,7 +2,7 @@
 
 ## 🎯 Objectif
 
-Ce projet vise à construire un modèle de deep learning pour la reconnaissance et la classification des émotions à partir de textes courts, tels que les Tweets et les posts sur les réseaux sociaux.
+Ce projet vise à construire et évaluer des modèles de deep learning (RNN) pour la reconnaissance et la classification des émotions à partir de textes courts, tels que les Tweets et les posts sur les réseaux sociaux.
 
 Le modèle est entraîné à reconnaître six émotions principales :
 * Joie (joy)
@@ -20,7 +20,7 @@ Nous utilisons le "Emotions Dataset for NLP" disponible sur Kaggle. Le notebook 
 
 ## 🛠️ Pipeline de Traitement
 
-1.  **Chargement des données :** Les fichiers `.txt` sont chargés dans des DataFrames Pandas.
+1.  **Chargement des données :** Les fichiers `.txt` sont chargés dans des DataFrames Pandas, séparés par `;`.
 2.  **Nettoyage du texte :** Une fonction `clean_text` est appliquée pour :
     * Mettre le texte en minuscule.
     * Supprimer tous les caractères non alphabétiques (ponctuation, chiffres) via regex.
@@ -31,38 +31,37 @@ Nous utilisons le "Emotions Dataset for NLP" disponible sur Kaggle. Le notebook 
     * Les phrases sont converties en séquences d'entiers.
     * Les séquences sont normalisées à une longueur fixe de **50 tokens** via `pad_sequences`.
 
-## 🧠 Architecture du Modèle
+## 🧠 Modèles et Résultats
 
-Le modèle est un `Sequential` de Keras basé sur des couches LSTM bidirectionnelles :
+Deux architectures de réseaux de neurones récurrents ont été testées :
 
-1.  **Embedding** : (input_dim=10000, output_dim=128, input_length=50)
-2.  **LSTM(128)** (avec dropout de 0.3)
-3.  **LSTM(64)** (avec dropout de 0.3)
-4.  **Dense** (64 neurones, activation 'relu')
-5.  **Dropout** (0.5)
-6.  **Dense** (6 neurones, activation 'softmax') - Couche de sortie pour les 6 classes.
+### 1. Modèle LSTM
+* **Architecture :** `Embedding(10000, 128)` -> `LSTM(128, return_seq=True)` -> `LSTM(64)` -> `Dense(64, 'relu')` -> `Dropout(0.5)` -> `Dense(6, 'softmax')`.
+* **Performance (Test) :** **89.25%** d'accuracy.
 
-## 🚀 Entraînement et Résultats
+### 2. Modèle GRU (Gated Recurrent Unit)
+* **Architecture :** `Embedding(10000, 128)` -> `GRU(128, return_seq=True)` -> `GRU(64)` -> `Dense(64, 'relu')` -> `Dropout(0.5)` -> `Dense(6, 'softmax')`.
+* **Performance (Test) :** **91.35%** d'accuracy.
 
-* **Optimiseur :** Adam
-* **Fonction de perte :** `categorical_crossentropy`
-* **Métriques :** Accuracy
-* **Époques :** 10
-* **Taille de lot (Batch Size) :** 256
+### Conclusion
+Le modèle **GRU** s'est montré plus performant que le modèle LSTM pour cette tâche de classification, avec une précision de 91.35% sur l'ensemble de test.
 
-Le modèle atteint une **précision (accuracy) de 90.45%** sur l'ensemble de test. Les courbes ROC et les scores AUC pour chaque classe confirment d'excellentes performances (AUC > 0.96 pour toutes les classes).
+## 💾 Modèle Sauvegardé
+
+Le modèle GRU (le plus performant) est sauvegardé dans le fichier `EmotionsFromText_model_gru.h5`.
 
 ## ⚙️ Comment l'utiliser
 
 1.  Clonez ce dépôt.
-2.  Assurez-vous d'avoir le dataset (`train.txt`, `test.txt`) disponible.
-3.  **Important :** Mettez à jour la variable `datasetPath` dans la 5ème cellule de code pour pointer vers l'emplacement de votre dossier `DataSet`. Le notebook utilise un chemin absolu :
+2.  Assurez-vous d'avoir le dataset (`train.txt`, `test.txt`) de Kaggle.
+3.  **Important :** Mettez à jour la variable `datasetPath` dans la 5ème cellule de code pour pointer vers l'emplacement de votre dossier `DataSet`. Le notebook utilise un chemin absolu qui doit être modifié :
     ```python
+    # Cellule 5
     datasetPath = r"D:\Projects\EmotionsFromText\DataSet" 
     # (À CHANGER)
     ```
-4.  Installez les dépendances requises :
+4.  Installez les dépendances requises (voir `requirements.txt`) :
     ```bash
-    pip install -r requirements.txt
+    pip install pandas seaborn matplotlib scikit-learn tensorflow
     ```
-5.  Exécutez le notebook `EmotionsFromText.ipynb` (par exemple, avec Jupyter Lab ou VS Code).
+5.  Exécutez le notebook `EmotionsFromText.ipynb`.
