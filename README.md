@@ -62,6 +62,6 @@ Le modèle GRU (le plus performant) est sauvegardé dans le fichier `EmotionsFro
     ```
 4.  Installez les dépendances requises (voir `requirements.txt`) :
     ```bash
-    pip install pandas seaborn matplotlib scikit-learn tensorflow
+    pip install -r requirements.txt
     ```
 5.  Exécutez le notebook `EmotionsFromText.ipynb`.
