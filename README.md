@@ -50,7 +50,7 @@ Le modèle est un `Sequential` de Keras basé sur des couches LSTM bidirectionne
 * **Époques :** 10
 * **Taille de lot (Batch Size) :** 256
 
-Le modèle atteint une **précision (accuracy) de 90.35%** sur l'ensemble de test. Les courbes ROC et les scores AUC pour chaque classe confirment d'excellentes performances (AUC > 0.97 pour toutes les classes).
+Le modèle atteint une **précision (accuracy) de 90.45%** sur l'ensemble de test. Les courbes ROC et les scores AUC pour chaque classe confirment d'excellentes performances (AUC > 0.96 pour toutes les classes).
 
 ## ⚙️ Comment l'utiliser
 
