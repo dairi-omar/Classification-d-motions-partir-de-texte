@@ -36,8 +36,8 @@ Nous utilisons le "Emotions Dataset for NLP" disponible sur Kaggle. Le notebook 
 Le modèle est un `Sequential` de Keras basé sur des couches LSTM bidirectionnelles :
 
 1.  **Embedding** : (input_dim=10000, output_dim=128, input_length=50)
-2.  **Bidirectional(LSTM(128))** (avec dropout de 0.3)
-3.  **Bidirectional(LSTM(64))** (avec dropout de 0.3)
+2.  **LSTM(128)** (avec dropout de 0.3)
+3.  **LSTM(64)** (avec dropout de 0.3)
 4.  **Dense** (64 neurones, activation 'relu')
 5.  **Dropout** (0.5)
 6.  **Dense** (6 neurones, activation 'softmax') - Couche de sortie pour les 6 classes.
